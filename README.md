@@ -13,7 +13,7 @@ This app requires a keyboard in order to work (The Wiimote can't be used).
 
 While in action mode, press :
 
-- 'O' to open (Create) a file.
+- 'O' : to open (Create) a file.
 
 # Disclaimer :
 
