@@ -17,4 +17,4 @@ While in action mode, press :
 
 # Disclaimer :
 
-    This app comes with ZERO guarantee, and comes as it is. If by any chance it causes harm to your system you're the only person you can blame.
+    This app comes with ZERO guarantee, and comes as it is. If by any chance this software causes any harm to your systemn you can only blame yourself.
