@@ -1,0 +1,8 @@
+build/fatsystem.d
+build/fatsystem.o
+build/Input.d
+build/Input.o
+build/main.o
+/build
+NanoWii.dol
+NanoWii.elf
