@@ -4,7 +4,7 @@ This app was built from scratch, which means that it doesn't use code from the o
 
 # How to use :
 
-This app only works with a keyboard (The Wiimote can't be used).
+This app requires a keyboard in order to work (The Wiimote can't be used).
 
 - CTRL : Enable action mode.
 - ESC : Exit the app.
