@@ -15,6 +15,6 @@ While in action mode, press :
 
 - 'O' to open (Create) a file.
 
+# Disclaimer :
 
-
-    Disclaimer : This app comes with ZERO guarantee, and comes as it is. If by any chance it causes harm to your system you're the only person you can blame.
+    This app comes with ZERO guarantee, and comes as it is. If by any chance it causes harm to your system you're the only person you can blame.
