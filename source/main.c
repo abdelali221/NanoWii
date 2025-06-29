@@ -1,4 +1,5 @@
 #include "fatsystem.h"
+#include "fileutils.h"
 #include "Input.h"
 #include "TUI.h"
 #include "Video.h"
@@ -8,91 +9,9 @@ char filename[64] = "Untitled";
 
 char filepath[255];
 
-int conX;
-int conY;
-
 FILE* file;
 
-void printTopbar() {
-    POSCursor(0, 0);
-    
-    int realtextsize = 0;
-    
-    for (realtextsize = 0; realtextsize < sizeof(filename); realtextsize++) {
-    
-        if (filename[realtextsize] == 0) break;
-    
-    }
-    
-    realtextsize++;
-    
-    printf("%s%6c%s%3c%s%*c%s%*c", WHITE_BG_BLACK_FG, ' ', "NANOWII", ' ', VER, 20 - (realtextsize/2), ' ', filename, 38 - (realtextsize/2), ' ');
-
-    CON_GetPosition(&conX, &conY);
-
-    while (conX != 0)
-    {
-        putchar(' ');
-    }
-        
-    printf("\n");
-
-    printf("%s", DEFAULT_BG_FG);
-
-}
-
-void printCurrentPos() {
-    CON_GetPosition(&conX, &conY);
-    
-    POSCursor(0, 27);
-    
-    printf("%s", WHITE_BG_BLACK_FG);
-    
-    if (conX < 10) {
-    
-        printf("0%d", conX); 
-    
-    } else {
-    
-        printf("%d", conX);
-    
-    }
-    
-    printf(", ");
-    
-    if (conY - 2 < 10) {
-    
-        printf("0%d", conY - 2); 
-    
-    } else {
-    
-        printf("%d", conY - 2);
-    
-    }
-    
-    printf("%s", DEFAULT_BG_FG);
-    
-    POSCursor(conX, conY);
-}
-
-void ShowCursor() {
-    printf("%s %s", WHITE_BG_BLACK_FG, DEFAULT_BG_FG);
-    POSCursor(conX, conY);
-}
-
-void Scroll() {
-    POSCursor(0, 28);
-    
-    printf("              ");
-    
-    putchar('\n');
-    
-    printTopbar();
-    
-    POSCursor(0, 25);
-}
-
-void Openfile() {
+int Openfile() {
     ClearScreen();
     
     fclose(file);
@@ -100,7 +19,7 @@ void Openfile() {
     char chr = 0;
     bool stayinloop = true;
 
-    printTopbar();
+    printTopbar(filename);
     
     printf("\nEnter the file directory : ");
     
@@ -150,7 +69,7 @@ void Openfile() {
             fclose(file);
             printf("\nInvalid Dir!");
             usleep(2*(10e5));
-            Openfile();
+            return -1;
     
         }
     
@@ -163,7 +82,7 @@ void Openfile() {
             fclose(file);
             printf("\nDevice Unavailable!");
             usleep(2*(10e5));
-            Openfile();
+            return -1;
     
         }
     
@@ -174,7 +93,7 @@ void Openfile() {
             fclose(file);
             printf("Device Unavailable!");
             usleep(2*(10e5));
-            Openfile();
+            return -1;
     
         }
     }
@@ -197,7 +116,7 @@ void Openfile() {
                 break;
             
                 case 'N':
-                    return;
+                    return -2;
                 break;
             }
         }
@@ -281,20 +200,35 @@ void Openfile() {
             break;
         
             case 'N':
-                Openfile();
+                return -1;
             break;
         }
     }
 
     ClearScreen();
     
-    printTopbar();
+    printTopbar(filename);
 
-    file = fopen(filepath, "w+");
+
+    file = fopen(filepath, "r+");
     
-    if (file == NULL) fclose(file);    
+    if (!file) {
     
-    return;
+        file = fopen(filepath, "w+");
+    
+    }
+
+    if (file) {
+    
+        printfilecontent(&file, filename);
+    
+    } else {
+    
+        printf("Failed to open file!\n");
+    
+    }
+
+    return 0;
 }
 
 void Ctrlhandle() {
@@ -317,7 +251,14 @@ void Ctrlhandle() {
             break;
             
             case 'O':
-                Openfile();
+                while (1)
+                {
+                    int ret = Openfile();
+                    if (ret == 0)                
+                        break;
+
+                }                
+                
                 return;
             break;
 
@@ -336,13 +277,15 @@ int main(void) {
     
     FATInit();
     
-    printTopbar();
+    printTopbar(filename);
     
     strcat(filepath, filename);
     
-    file = fopen(filepath, "w+");
+    file = fopen(filepath, "r+");
     
     if (file == NULL) fclose(file);
+
+    printfilecontent(&file, filename);
     
     printCurrentPos();
 
@@ -363,15 +306,15 @@ int main(void) {
         
             case '\b':
         
-                printf("\b \b");
-                truncate(filepath, sizeof(file) - 1);
+                printf(" \b\b \b");
+                truncate(filepath, sizeof(file) - sizeof(char));
 
             break;
         
             case 13:
         
                 if (conY > 24) {
-                    Scroll();
+                    Scroll(filename);
                 } else {
                     POSCursor(conX, conY);
                 }
@@ -392,7 +335,7 @@ int main(void) {
                 
                 if (keyinput > 31) {
                     if (conY > 25 && conX == 75) {
-                        Scroll();
+                        Scroll(filename);
                     } else {
                         POSCursor(conX, conY);
                     }

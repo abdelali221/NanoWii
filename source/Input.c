@@ -3,10 +3,7 @@
 #include "Video.h"
 #include <wiikeyboard/keyboard.h>
 
-void keypress(char keyinput) {
-    if (keyinput == 0x1b)
-        exit(0);
-}
+void keypress(char key) {}
 
 void InputInit() {
     KEYBOARD_Init(keypress);

@@ -10,3 +10,4 @@ apps/NanoWii/boot.dol
 apps/NanoWii/icon.png
 apps/NanoWii/meta.xml
 .vscode/launch.json
+NanoWii.zip
