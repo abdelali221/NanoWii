@@ -14,7 +14,11 @@ void printfilecontent(FILE **file, const char *filename) {
     
     off_t file_size = st.st_size;
 
-    POSCursor(0, 2);
+    ClearScreen();
+
+    printTopbar(filename);
+
+    POSCursor(0, 3);
 
     rewind(*file);
 
@@ -26,14 +30,14 @@ void printfilecontent(FILE **file, const char *filename) {
         if (ch == EOF || ch == '\0')
             break;
 
-        CON_GetPosition(&conX, &conY);
-
         if (ch == '\n') {
     
             if (conY > 24)
                 Scroll(filename);
             else
                 POSCursor(conX, conY);
+
+            putchar('\n');
     
         } else {
 
@@ -41,13 +45,16 @@ void printfilecontent(FILE **file, const char *filename) {
                 Scroll(filename);
             else
                 POSCursor(conX, conY);
+
+            putchar(ch);
             
         }
-        
-        if (conY == 27) break;
-        
-        putchar(ch);
+
+        CON_GetPosition(&conX, &conY);
     }
+
+    CON_GetPosition(&conX, &conY);
+
     POSCursor(40, 28);
     
     printf("%lld Bytes", (long long)file_size);
