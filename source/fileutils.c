@@ -14,10 +14,6 @@ void printfilecontent(FILE **file, const char *filename) {
     
     off_t file_size = st.st_size;
 
-    POSCursor(40, 28);
-    
-    printf("%lld Bytes", (long long)file_size);
-
     POSCursor(0, 2);
 
     rewind(*file);
@@ -52,6 +48,11 @@ void printfilecontent(FILE **file, const char *filename) {
         
         putchar(ch);
     }
+    POSCursor(40, 28);
+    
+    printf("%lld Bytes", (long long)file_size);
+
+    POSCursor(conX, conY);
 }
 
 void safe_fclose(FILE **file) {

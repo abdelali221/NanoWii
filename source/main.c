@@ -211,12 +211,6 @@ int Openfile() {
 
 
     file = fopen(filepath, "r+");
-    
-    if (!file) {
-    
-        file = fopen(filepath, "w+");
-    
-    }
 
     if (file) {
     
@@ -271,21 +265,19 @@ void Ctrlhandle() {
 }
 
 int main(void) {
-    VideoInit();
-    
     InputInit();
+    
+    VideoInit();
     
     FATInit();
     
     printTopbar(filename);
-    
+
     strcat(filepath, filename);
     
-    file = fopen(filepath, "r+");
+    file = fopen(filepath, "w+");
     
     if (file == NULL) fclose(file);
-
-    printfilecontent(&file, filename);
     
     printCurrentPos();
 
@@ -314,6 +306,7 @@ int main(void) {
             case 13:
         
                 if (conY > 24) {
+                    putchar(' ');
                     Scroll(filename);
                 } else {
                     POSCursor(conX, conY);
@@ -335,6 +328,7 @@ int main(void) {
                 
                 if (keyinput > 31) {
                     if (conY > 25 && conX == 75) {
+                        putchar(' ');
                         Scroll(filename);
                     } else {
                         POSCursor(conX, conY);

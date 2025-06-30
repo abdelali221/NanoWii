@@ -42,29 +42,19 @@ void printCurrentPos() {
 void printTopbar(const char *filename) {
     POSCursor(0, 0);
     
-    int realtextsize = 0;
-    
-    for (realtextsize = 0; realtextsize < sizeof(filename); realtextsize++) {
-    
-        if (filename[realtextsize] == 0) break;
-    
-    }
-    
-    realtextsize++;
-    
-    printf("%s%6c%s%3c%s%*c%s%*c", WHITE_BG_BLACK_FG, ' ', "NANOWII", ' ', VER, 20 - (realtextsize/2), ' ', filename, 38 - (realtextsize/2), ' ');
+    printf("%s%6c%s%3c%s%*c%s", WHITE_BG_BLACK_FG, ' ', "NANOWII", ' ', VER, 18 - (sizeof(filename)/2), ' ', filename);
 
     CON_GetPosition(&conX, &conY);
 
-    while (conX != 0)
+    while (conX < 77 && conY == 0)
     {
         putchar(' ');
+        CON_GetPosition(&conX, &conY);
     }
         
     printf("\n");
 
     printf("%s", DEFAULT_BG_FG);
-
 }
 
 void Scroll(const char *filename) {
