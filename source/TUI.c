@@ -55,12 +55,14 @@ void printTopbar(const char *filename) {
     printf("\n");
 
     printf("%s", DEFAULT_BG_FG);
+
+    POSCursor(0, 2);
 }
 
 void Scroll(const char *filename) {
     POSCursor(0, 28);
     
-    printf("              ");
+    printf("%*c", ' ', 77);
     
     putchar('\n');
     
