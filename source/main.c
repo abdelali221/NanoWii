@@ -217,8 +217,14 @@ int Openfile() {
         printfilecontent(&file, filename);
     
     } else {
-    
-        printf("Failed to open file!\n");
+
+        file = fopen(filepath, "w+");
+
+        if (!file) {
+
+            printf("Failed to open file!\n");
+        
+        }
     
     }
 
@@ -312,7 +318,7 @@ int main(void) {
                     POSCursor(conX, conY);
                 }
         
-                printf("\n");
+                printf(" \b\n");
                 fprintf(file, "\n");
             
             break;
