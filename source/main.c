@@ -75,7 +75,7 @@ int Openfile() {
     
     }
     
-    if (devicepresent == 1) {
+    if (devicepresent == 2) {
     
         if (toupper(filepath[0]) == 'U' && toupper(filepath[1]) == 'S' && toupper(filepath[2]) == 'B') {
     
@@ -86,7 +86,7 @@ int Openfile() {
     
         }
     
-    } else if (devicepresent == 0) {
+    } else if (devicepresent == -1) {
         
         if (toupper(filepath[0]) == 'S' && toupper(filepath[1]) == 'D') {
     
@@ -142,16 +142,16 @@ int Openfile() {
                     printf("\r%s", dir);
 
                 } else {
+
                     mkdir(dir, 0755);
                     printf("\nCreated %s", dir);
-                }
 
+                }
             }
 
             break;
             
         }
-
     }
 
     printf("\nEnter the file name : ");
@@ -191,24 +191,23 @@ int Openfile() {
     
     stayinloop = true;
     
-    while (stayinloop)
-    {
-        switch (toupper(getchar()))
-        {
+    while (stayinloop) {
+
+        switch (toupper(getchar())) {
+
             case 'Y':
+            
                 stayinloop = false;
+            
             break;
         
             case 'N':
+
                 return -1;
+
             break;
         }
     }
-
-    ClearScreen();
-    
-    printTopbar(filename);
-
 
     file = fopen(filepath, "r+");
 
@@ -218,14 +217,15 @@ int Openfile() {
     
     } else {
 
+        ClearScreen();
+        printTopbar(filename);
         file = fopen(filepath, "w+");
 
         if (!file) {
 
             printf("Failed to open file!\n");
-        
+
         }
-    
     }
 
     return 0;
@@ -241,16 +241,19 @@ void Ctrlhandle() {
     while (1)
     {
 
-        switch (toupper(getchar()))
-        {
+        switch (toupper(getchar())) {
+
             case 0x03:
+
                 POSCursor(20, 28);
                 printf("%*c", 17, ' ');
                 POSCursor(conX, conY);
                 return;
+            
             break;
             
             case 'O':
+
                 while (1)
                 {
                     int ret = Openfile();
@@ -260,14 +263,13 @@ void Ctrlhandle() {
                 }                
                 
                 return;
+
             break;
 
             default:
             break;
         }
-
     }
-
 }
 
 int main(void) {
@@ -312,10 +314,14 @@ int main(void) {
             case 13:
         
                 if (conY > 24) {
+
                     putchar(' ');
                     Scroll(filename);
+
                 } else {
+
                     POSCursor(conX, conY);
+
                 }
         
                 printf(" \b\n");
@@ -333,11 +339,16 @@ int main(void) {
             default:
                 
                 if (keyinput > 31) {
-                    if (conY > 25 && conX == 75) {
+
+                    if (conY > 25 && conX == 76) {
+
                         putchar(' ');
                         Scroll(filename);
+
                     } else {
+
                         POSCursor(conX, conY);
+
                     }
 
                     printf("%c", keyinput);
@@ -348,6 +359,8 @@ int main(void) {
         }
 
         printCurrentPos();
+
+        printfilesize(&file);
         
         ShowCursor();
     
