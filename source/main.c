@@ -75,7 +75,7 @@ int Openfile() {
     
     }
     
-    if (devicepresent == 2) {
+    if (devicepresent == 0) {
     
         if (toupper(filepath[0]) == 'U' && toupper(filepath[1]) == 'S' && toupper(filepath[2]) == 'B') {
     
@@ -86,7 +86,7 @@ int Openfile() {
     
         }
     
-    } else if (devicepresent == -1) {
+    } else if (devicepresent == 1) {
         
         if (toupper(filepath[0]) == 'S' && toupper(filepath[1]) == 'D') {
     
@@ -272,6 +272,16 @@ void Ctrlhandle() {
     }
 }
 
+void deletechar() {
+    fseek(file, 0, SEEK_END);
+
+    long current_size = ftell(file);
+    
+    if (current_size > 0) {
+        ftruncate(fileno(file), current_size - 1);
+    }
+}
+
 int main(void) {
     InputInit();
     
@@ -307,24 +317,25 @@ int main(void) {
             case '\b':
         
                 printf(" \b\b \b");
-                truncate(filepath, sizeof(file) - sizeof(char));
+                deletechar();
 
             break;
-        
-            case 13:
+
+            case '\r':
+
+                printf(" \b");
         
                 if (conY > 24) {
 
-                    putchar(' ');
                     Scroll(filename);
 
                 } else {
 
+
                     POSCursor(conX, conY);
+                    printf("\n");
 
                 }
-        
-                printf(" \b\n");
                 fprintf(file, "\n");
             
             break;
@@ -340,7 +351,7 @@ int main(void) {
                 
                 if (keyinput > 31) {
 
-                    if (conY > 25 && conX == 76) {
+                    if (conY > 24 && conX == 76) {
 
                         putchar(' ');
                         Scroll(filename);
@@ -359,8 +370,6 @@ int main(void) {
         }
 
         printCurrentPos();
-
-        printfilesize(&file);
         
         ShowCursor();
     

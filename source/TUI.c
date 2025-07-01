@@ -57,12 +57,14 @@ void printTopbar(const char *filename) {
     printf("%s", DEFAULT_BG_FG);
 
     POSCursor(0, 2);
+
+    CON_GetPosition(&conX, &conY);
 }
 
 void Scroll(const char *filename) {
     POSCursor(0, 28);
     
-    printf("%*c", ' ', 77);
+    printf("%*c", 76, ' ');
     
     putchar('\n');
     

@@ -9,12 +9,12 @@ static void DetectFATdevice() {
 
     if (test == NULL) {
     
-        devicepresent = 0;
+        devicepresent = -1;
         fclose(test);
     
     } else {
     
-        devicepresent = -1;
+        devicepresent = 0;
         fclose(test);
         remove("sd:/TEST");
     
@@ -24,11 +24,11 @@ static void DetectFATdevice() {
     
     if (test == NULL) {
     
-        devicepresent += 2;
         fclose(test);
     
     } else {
-    
+
+        devicepresent += 2;    
         fclose(test);
         remove("usb:/TEST");
     
