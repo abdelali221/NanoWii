@@ -46,10 +46,11 @@ void printTopbar(const char *filename) {
 
     CON_GetPosition(&conX, &conY);
 
-    while (conX < 77 && conY == 0)
-    {
+    while (conX < 77 && conY == 0) {
+
         putchar(' ');
         CON_GetPosition(&conX, &conY);
+    
     }
         
     printf("\n");
@@ -57,8 +58,6 @@ void printTopbar(const char *filename) {
     printf("%s", DEFAULT_BG_FG);
 
     POSCursor(0, 2);
-
-    CON_GetPosition(&conX, &conY);
 }
 
 void Scroll(const char *filename) {
@@ -75,5 +74,6 @@ void Scroll(const char *filename) {
 
 void ShowCursor() {
     printf("%s %s", WHITE_BG_BLACK_FG, DEFAULT_BG_FG);
+
     POSCursor(conX, conY);
 }
