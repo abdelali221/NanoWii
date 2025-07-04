@@ -42,7 +42,7 @@ void printCurrentPos() {
 void printTopbar(const char *filename) {
     POSCursor(0, 0);
     
-    printf("%s%6c%s%3c%s%*c%s", WHITE_BG_BLACK_FG, ' ', "NANOWII", ' ', VER, 18 - (sizeof(filename)/2), ' ', filename);
+    printf("%s%6c%s%3c%s%*c%s", WHITE_BG_BLACK_FG, ' ', "NANOWII", ' ', VER, 18 - (strlen(filename)/2), ' ', filename);
 
     CON_GetPosition(&conX, &conY);
 
