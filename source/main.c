@@ -62,9 +62,9 @@ int Openfile() {
     
     }
     
-    if (toupper(filepath[0]) != 'U' || toupper(filepath[1]) != 'S' || toupper(filepath[2]) != 'B' || filepath[3] != ':' || filepath[4] != '/') {
+    if (filepath[0] != 'u' || filepath[1] != 's' || filepath[2] != 'b' || filepath[3] != ':' || filepath[4] != '/') {
     
-        if (toupper(filepath[0]) != 'S' || toupper(filepath[1]) != 'D' || filepath[2] != ':' || filepath[3] != '/') {
+        if (filepath[0] != 's' || filepath[1] != 'd' || filepath[2] != ':' || filepath[3] != '/') {
     
             fclose(file);
             printf("\nInvalid Dir!");
@@ -77,7 +77,7 @@ int Openfile() {
     
     if (devicepresent == 0) {
     
-        if (toupper(filepath[0]) == 'U' && toupper(filepath[1]) == 'S' && toupper(filepath[2]) == 'B') {
+        if (filepath[0] == 'u' && filepath[1] == 's' && filepath[2] == 'b') {
     
             fclose(file);
             printf("\nDevice Unavailable!");
@@ -88,7 +88,7 @@ int Openfile() {
     
     } else if (devicepresent == 1) {
         
-        if (toupper(filepath[0]) == 'S' && toupper(filepath[1]) == 'D') {
+        if (filepath[0] == 's' && filepath[1] == 'd') {
     
             fclose(file);
             printf("Device Unavailable!");
@@ -226,6 +226,7 @@ int Openfile() {
             printf("Failed to open file!\n");
 
         }
+        
     }
 
     return 0;
@@ -278,7 +279,9 @@ void deletechar() {
     long current_size = ftell(file);
     
     if (current_size > 0) {
+
         ftruncate(fileno(file), current_size - 1);
+    
     }
 }
 
@@ -315,7 +318,16 @@ int main(void) {
             break;
         
             case '\b':
-        
+
+                CON_GetPosition(&conX, &conY);
+                
+                if (conX == 0) {
+
+                    conX = 77;
+                    conY--;
+                
+                }
+                
                 printf(" \b\b \b");
                 deletechar();
 
