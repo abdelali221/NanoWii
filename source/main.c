@@ -1,4 +1,4 @@
-#include "fatsystem.h"
+#include "fat.h"
 #include "fileutils.h"
 #include "Input.h"
 #include "TUI.h"
@@ -14,7 +14,7 @@ FILE* file;
 int Openfile() {
     ClearScreen();
     
-    fclose(file);
+    safe_fclose(&file);
     
     char chr = 0;
     bool stayinloop = true;
@@ -66,7 +66,7 @@ int Openfile() {
     
         if (filepath[0] != 's' || filepath[1] != 'd' || filepath[2] != ':' || filepath[3] != '/') {
     
-            fclose(file);
+            safe_fclose(&file);
             printf("\nInvalid Dir!");
             usleep(2*(10e5));
             return -1;
@@ -79,7 +79,7 @@ int Openfile() {
     
         if (filepath[0] == 'u' && filepath[1] == 's' && filepath[2] == 'b') {
     
-            fclose(file);
+            safe_fclose(&file);
             printf("\nDevice Unavailable!");
             usleep(2*(10e5));
             return -1;
@@ -90,7 +90,7 @@ int Openfile() {
         
         if (filepath[0] == 's' && filepath[1] == 'd') {
     
-            fclose(file);
+            safe_fclose(&file);
             printf("Device Unavailable!");
             usleep(2*(10e5));
             return -1;
@@ -298,7 +298,7 @@ int main(void) {
     
     file = fopen(filepath, "w+");
     
-    if (file == NULL) fclose(file);
+    if (file == NULL) safe_fclose(&file);
     
     printCurrentPos();
 
@@ -312,7 +312,7 @@ int main(void) {
         {
             case 0x1b:
         
-                fclose(file);
+                safe_fclose(&file);
                 exit(0);
             
             break;

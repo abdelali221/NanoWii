@@ -18,8 +18,6 @@ void printfilecontent(FILE *file, const char *filename) {
 
     ClearScreen();
 
-    printTopbar(filename);
-
     int j = 23;
     
     for (off_t i = 0; i < file_size; i++) {
@@ -119,11 +117,11 @@ void printfilesize(FILE *file) {
     POSCursor(conX, conY);
 }
 
-void safe_fclose(FILE *file) {
-    if (file && file) {
+void safe_fclose(FILE **file) {
+    if (file && *file) {
 
-        fclose(file);
-        file = NULL;
+        fclose(*file);
+        *file = NULL;
     
     }
 }

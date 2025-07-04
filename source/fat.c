@@ -1,3 +1,4 @@
+#include "fileutils.h"
 #include "fat.h"
 #include "WiiLibs.h"
 #include <fat.h>
@@ -14,17 +15,17 @@ static void DetectFATdevice() {
     } else {
     
         devicepresent = 0;
-        fclose(test);
+        safe_fclose(&test);
         remove("sd:/TEST");
     
     }
     
     test = fopen("usb:/TEST", "w+");
     
-    if (!test){
+    if (test){
 
         devicepresent += 2;    
-        fclose(test);
+        safe_fclose(&test);
         remove("usb:/TEST");
     
     }

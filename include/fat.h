@@ -1,5 +1,5 @@
-#ifndef _FATSYSTEM_H_
-#define _FATSYSTEM_H_
+#ifndef _FAT_H_
+#define _FAT_H_
 
 extern int devicepresent;
 
