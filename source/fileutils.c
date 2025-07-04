@@ -19,8 +19,11 @@ void printfilecontent(FILE **file, const char *filename) {
     ClearScreen();
 
     printTopbar(filename);
+
+    int j = 23;
     
     for (off_t i = 0; i < file_size; i++) {
+        
         int ch = fgetc(*file);
         
         if (ch == EOF || ch == '\0')
@@ -28,8 +31,27 @@ void printfilecontent(FILE **file, const char *filename) {
 
         if (ch == '\n') {
     
-            if (conY > 26) {
+            if (conY > 22) {
 
+                if (j == 23) {
+
+                    POSCursor(6, 28);
+                    printf("Press Enter to continue...");
+                    
+                    while (1) {
+
+                        if (getchar() == '\r') break;
+                    
+                    }
+
+                    POSCursor(6, 28);                    
+                    printf("%*c", 28, ' ');
+                    POSCursor(conX, conY);
+                    j = 0;
+
+                }
+
+                j++;
                 Scroll(filename);
             
             } else {
@@ -42,20 +64,37 @@ void printfilecontent(FILE **file, const char *filename) {
     
         } else {
 
-            if (conY == 24 && conX == 77) {
+            if (conY == 22 && conX == 76) {
 
                 Scroll(filename);
+            
+            } else if (conX == 75) {
+
+                POSCursor(conX, conY);
+                putchar('\n');
             
             } else {
 
                 POSCursor(conX, conY);
-            
+
             }
 
-            putchar(ch);   
+            putchar(ch);
         }
 
         CON_GetPosition(&conX, &conY);
+
+    }
+
+    int _conX, _conY;
+
+    CON_GetPosition(&_conX, &_conY);
+    
+    if (j != 23) {
+
+        Scroll(filename);
+        POSCursor(_conX, _conY - 1);
+    
     }
 
     printfilesize(file);
