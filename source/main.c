@@ -213,7 +213,7 @@ int Openfile() {
 
     if (file) {
     
-        printfilecontent(&file, filename);
+        printfilecontent(file, filename);
     
     } else {
 

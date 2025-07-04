@@ -10,7 +10,6 @@ static void DetectFATdevice() {
     if (test == NULL) {
     
         devicepresent = -1;
-        fclose(test);
     
     } else {
     
@@ -22,11 +21,7 @@ static void DetectFATdevice() {
     
     test = fopen("usb:/TEST", "w+");
     
-    if (test == NULL) {
-    
-        fclose(test);
-    
-    } else {
+    if (!test){
 
         devicepresent += 2;    
         fclose(test);

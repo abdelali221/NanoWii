@@ -3,18 +3,18 @@
 #include "Video.h"
 #include "WiiLibs.h"
 
-void printfilecontent(FILE **file, const char *filename) {
+void printfilecontent(FILE *file, const char *filename) {
     if (!file) return;
 
     struct stat st;
 
-    int fd = fileno(*file);
+    int fd = fileno(file);
     
     if (fstat(fd, &st) != 0) return;
     
     off_t file_size = st.st_size;
 
-    rewind(*file);
+    rewind(file);
 
     ClearScreen();
 
@@ -24,7 +24,7 @@ void printfilecontent(FILE **file, const char *filename) {
     
     for (off_t i = 0; i < file_size; i++) {
         
-        int ch = fgetc(*file);
+        int ch = fgetc(file);
         
         if (ch == EOF || ch == '\0')
             break;
@@ -100,10 +100,11 @@ void printfilecontent(FILE **file, const char *filename) {
     printfilesize(file);
 }
 
-void printfilesize(FILE **file) {
+void printfilesize(FILE *file) {
+    if (file == NULL) return;
     struct stat st;
 
-    int fd = fileno(*file);
+    int fd = fileno(file);
 
     if (fstat(fd, &st) != 0) return;
 
@@ -118,11 +119,11 @@ void printfilesize(FILE **file) {
     POSCursor(conX, conY);
 }
 
-void safe_fclose(FILE **file) {
-    if (file && *file) {
+void safe_fclose(FILE *file) {
+    if (file && file) {
 
-        fclose(*file);
-        *file = NULL;
+        fclose(file);
+        file = NULL;
     
     }
 }
