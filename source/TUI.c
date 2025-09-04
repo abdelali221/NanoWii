@@ -5,36 +5,35 @@
 int conX;
 int conY;
 
-void printCurrentPos() {
+void printCurrentPos(char *buffer, size_t location) {
     CON_GetPosition(&conX, &conY);
     
     POSCursor(0, 27);
-    
-    printf("%s", WHITE_BG_BLACK_FG);
-    
-    if (conX < 10) {
-    
-        printf("0%d", conX); 
-    
+
+    u32 ROW = 0;
+    u32 COL = 0;
+
+    for(size_t i=0; i != location; i++) {
+
+        if(buffer[i] == '\n') ROW++;
+        
+    }
+
+    if(ROW != 0) {
+
+        for(size_t i = location; buffer[i] != '\n'; i--) {
+
+            COL++;
+
+        }
+
     } else {
-    
-        printf("%d", conX);
-    
+
+        COL = location;
+
     }
     
-    printf(", ");
-    
-    if (conY - 2 < 10) {
-    
-        printf("0%d", conY - 2); 
-    
-    } else {
-    
-        printf("%d", conY - 2);
-    
-    }
-    
-    printf("%s", DEFAULT_BG_FG);
+    printf("%s %d, %d%s  ", WHITE_BG_BLACK_FG, ROW, COL, DEFAULT_BG_FG);
     
     POSCursor(conX, conY);
 }

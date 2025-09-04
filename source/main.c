@@ -10,6 +10,8 @@ char filename[64] = "Untitled";
 char filepath[255];
 
 FILE* file;
+char *buffer;
+size_t idx = 0;
 
 int Openfile() {
     ClearScreen();
@@ -298,9 +300,15 @@ int main(void) {
     
     file = fopen(filepath, "w+");
     
-    if (file == NULL) safe_fclose(&file);
+    if (!file) {
+
+        safe_fclose(&file);
+        exit(0);
+    }
+
+    buffer = malloc(sizeof(file));
     
-    printCurrentPos();
+    printCurrentPos(buffer, idx);
 
     ShowCursor();
     
@@ -343,11 +351,11 @@ int main(void) {
 
                 } else {
 
-
                     POSCursor(conX, conY);
                     printf("\n");
 
                 }
+
                 fprintf(file, "\n");
             
             break;
@@ -381,7 +389,7 @@ int main(void) {
             break;
         }
 
-        printCurrentPos();
+        printCurrentPos(buffer, idx);
         
         ShowCursor();
     
